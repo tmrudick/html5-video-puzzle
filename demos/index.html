@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HTML5 Video Puzzle Test</title>
+		<script src="../jquery-1.7.2.js"></script>
+	</head>
+	<body>
+		<video id="vid" src="movie.mp4" autoplay="autoplay" loop="loop"></video>
+		<canvas id="puzzle-frame" style="position:absolute;bottom:0;right:0;"></canvas>
+		<canvas id="bottom" style="position:absolute;top:0;right:0;"></canvas>
+		
+		<script type="text/javascript">
+			var HEIGHT_TILES = 4;
+			var WIDTH_TILES = 4;
+			var tiles = [];
+			
+			$(function() {
+				var vid = $("video");
+				
+				vid.bind("loadedmetadata", function() {
+					var canvas = document.getElementById("puzzle-frame");
+					canvas.height = $("video").height() / 2;
+					canvas.width = $("video").width();
+
+					var canvas1 = document.getElementById("bottom");
+					canvas1.height = $("video").height() / 2;
+					canvas1.width = $("video").width();
+				});
+				
+				vid.bind("play", function() {
+					drawVideo();
+				});
+			});
+			
+			function drawVideo() {
+				var canvas = document.getElementById("puzzle-frame");
+				var pf = canvas.getContext("2d");
+				
+				var cw = Math.floor(canvas.clientWidth / 100);
+				var ch = Math.floor(canvas.clientHeight / 100);
+				
+				var vidWidth = $("video").width();
+				var vidHeight = $("video").height();
+				pf.drawImage(document.getElementById("vid"), 0, 0, 958, 256, 0, 0, 958, 256);
+				var bf = document.getElementById("bottom").getContext("2d");
+				bf.drawImage(document.getElementById("vid"), 0, 256, 958, 256, 0, 0, 958, 256);
+				setTimeout(drawVideo, 25);
+			}
+		</script>
+
+	</body>
+</html>
