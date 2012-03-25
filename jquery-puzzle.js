@@ -3,7 +3,8 @@
     
     var settings = $.extend( {
       'x' : 4,
-      'y' : 4
+      'y' : 4,
+      "solved" : function() {}
     }, options);
     
     // extension internals
@@ -12,6 +13,7 @@
     var tileHeight, tileWidth;
     var tiles = [];
     var that = this.get(0);
+    var activeDrops = 0;
     
     var drawVideo = function() {
       for (var i = 0; i < tiles.length; i++) {
@@ -65,12 +67,17 @@
                         "top" : j * tileHeight,
                         "left" : i * tileWidth});
           container.append(dropZone);
+          activeDrops++;
 		      dropZone.droppable({ accept: "#w" + i + "h" + j,
 		        drop: function(event, ui) { 
 		          ui.draggable.draggable("disable");
 		          ui.draggable.get(0).style.top = this.style.top;
 		          ui.draggable.get(0).style.left = this.style.left;
 		          ui.draggable.get(0).style.zIndex = 0;
+		          
+		          if (--activeDrops == 0) {
+		            settings.solved();
+		          }
 		        }
 		      });        
 		    }
