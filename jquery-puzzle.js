@@ -43,8 +43,8 @@
           piece.css({"height"   : tileHeight,
                      "width"    : tileWidth,
                      "position" : "absolute",
-                     "top"      : j * tileHeight,
-                     "left"     : i * tileWidth});
+                     "top"      : Math.floor(Math.random() * videoHeight),
+                     "left"     : videoOffsetLeft + videoWidth + 25});
           
           piece.get(0).height = tileHeight;
           piece.get(0).width = tileWidth;
@@ -58,7 +58,7 @@
                        "sx": i * tileWidth,
                        "sy": j * tileHeight});
         }
-      }
+      }      
     }
     
     this.bind("loadedmetadata", function() {
