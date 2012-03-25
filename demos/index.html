@@ -3,6 +3,7 @@
 	<head>
 		<title>HTML5 Video Puzzle Test</title>
 		<script src="../jquery-1.7.2.js"></script>
+		<script src="../jquery-ui-1.8.18.custom.js"></script>
 	</head>
 	<body>
 		<video id="vid" src="movie.mp4" autoplay="autoplay" loop="loop" style="display:none;"></video>
@@ -29,6 +30,7 @@
 				      var c = $("<canvas style=\"position:absolute;height:" + divH + "px;width:" + divW + "px;border:1px solid black;top:" + (vid.offset().top + (i * divH)) + "px;left:" + (vid.offset().left + (j * divW)) + "px\" height=\"" + divH + "\" width=\"" + divW + "\"></canvas>");
 				      
 				      $("body").append(c);
+				      c.draggable({ stack: "canvas" });
 				      tiles.push({"x":j, "y":i, "c":c.get(0).getContext("2d")});
 				    }
 				  }
