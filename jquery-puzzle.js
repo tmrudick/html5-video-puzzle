@@ -30,7 +30,7 @@
                      "position" : "absolute",
                      "top"      : videoOffsetTop,
                      "left"     : videoOffsetLeft,
-                     "border"   : "solid red 1px" });
+                     "border"   : "solid #666 1px" });
                      
       document.body.appendChild(container.get(0));
       
