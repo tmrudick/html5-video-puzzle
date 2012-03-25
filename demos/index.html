@@ -27,7 +27,7 @@
 				      var a = $("<div style=\"position:absolute;height:" + divH + "px;width:" + divW + "px;border:1px solid black;top:" + (vid.offset().top + (i * divH)) + "px;left:" + (vid.offset().left + (j * divW)) + "px\"></div>");
 				      $("body").append(a);
 				      
-				      var c = $("<canvas id=\"h" + i + "w" + j + "\" style=\"position:absolute;height:" + divH + "px;width:" + divW + "px;border:1px solid black;top:" + (vid.offset().top + (i * divH)) + "px;left:" + (vid.offset().left + (j * divW)) + "px\" height=\"" + divH + "\" width=\"" + divW + "\"></canvas>");
+				      var c = $("<canvas class=\"puzzle-piece\" id=\"h" + i + "w" + j + "\" style=\"position:absolute;height:" + divH + "px;width:" + divW + "px;top:" + (vid.offset().top + (i * divH)) + "px;left:" + (vid.offset().left + (j * divW)) + "px\" height=\"" + divH + "\" width=\"" + divW + "\"></canvas>");
 				      
 				      $("body").append(c);
 				      c.draggable({ stack: "canvas" });
@@ -37,26 +37,34 @@
 				          ui.draggable.draggable("disable");
 				          ui.draggable.get(0).style.top = this.style.top;
 				          ui.draggable.get(0).style.left = this.style.left;
+				          ui.draggable.get(0).style.zIndex = 0;
 				        }
 				      });
-				      $("#droppable").droppable({
-                drop: function() { alert('dropped'); }
-              });
 				      
 				      tiles.push({"x":j, "y":i, "c":c.get(0).getContext("2d")});
 				    }
 				  }
-				
-					/*var canvas = document.getElementById("puzzle-frame");
-					canvas.height = $("video").height() / 2;
-					canvas.width = $("video").width();
-          alert($("video").offset().left);*/
+				  
+				  scatterPuzzle();
 				});
 				
 				vid.bind("play", function() {
 					drawVideo();
 				});
 			});
+			
+			function scatterPuzzle() {
+			  // Get all canvas pieces
+			  var pieces = $(".puzzle-piece");
+			  
+			  for (var piece in pieces) {
+			    var rndWidth = Math.floor(Math.random() * $("video").width());
+			    var rndHeight = Math.floor(Math.random() * $("video").height());
+			    
+			    pieces[piece].style.top = $("video").offset().top + rndHeight + "px";
+			    pieces[piece].style.left = $("video").offset().left + rndWidth + "px";
+			  }
+			}
 			
 			function drawVideo() {
 				for (var i = 0; i < tiles.length; ++i) {
