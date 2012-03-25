@@ -57,7 +57,23 @@
                        "context": piece.get(0).getContext('2d'),
                        "sx": i * tileWidth,
                        "sy": j * tileHeight});
-        }
+                       
+          var dropZone = $("<div></div>");
+          dropZone.css({"height" : tileHeight,
+                        "width"  : tileWidth,
+                        "position" : "absolute",
+                        "top" : j * tileHeight,
+                        "left" : i * tileWidth});
+          container.append(dropZone);
+		      dropZone.droppable({ accept: "#w" + i + "h" + j,
+		        drop: function(event, ui) { 
+		          ui.draggable.draggable("disable");
+		          ui.draggable.get(0).style.top = this.style.top;
+		          ui.draggable.get(0).style.left = this.style.left;
+		          ui.draggable.get(0).style.zIndex = 0;
+		        }
+		      });        
+		    }
       }      
     }
     
@@ -72,8 +88,8 @@
       tileWidth = Math.floor(videoWidth / settings.x);
       tileHeight = Math.floor(videoHeight / settings.y);
       
-      // Hide the original video
-      this.style.display = "none";
+      // Set low opacity on the original video
+      this.style.opacity = 0.3;
       
       generatePieces();
     });
