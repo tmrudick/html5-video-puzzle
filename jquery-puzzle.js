@@ -84,25 +84,33 @@
       }      
     }
     
-    this.bind("loadedmetadata", function() {
+    var initPuzzle = function() {
       // Get video properties as it is currently drawn
-      videoHeight = this.clientHeight;
-      videoWidth = this.clientWidth;
-      videoOffsetLeft = this.offsetLeft;
-      videoOffsetTop = this.offsetTop;
+      videoHeight = that.clientHeight;
+      videoWidth = that.clientWidth;
+      videoOffsetLeft = that.offsetLeft;
+      videoOffsetTop = that.offsetTop;
             
       // Calculate tile width and height
       tileWidth = Math.floor(videoWidth / settings.x);
       tileHeight = Math.floor(videoHeight / settings.y);
       
       // Set low opacity on the original video
-      this.style.opacity = 0.3;
+      that.style.opacity = 0.3;
       
       generatePieces();
-    });
+    }
     
-    this.bind("play", drawVideo);
+    if (that.currentTime > 0) {
+      initPuzzle();
+      drawVideo();
+    } else {
+      this.bind("loadedmetadata", function() {
+        initPuzzle();
+      });
     
+      this.bind("play", drawVideo);
+    }
     return this;
   };
 })( jQuery );
